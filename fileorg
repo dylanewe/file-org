@@ -39,7 +39,10 @@ def organizeFiles(source, dest):
                 print(f"Skipped '{filename}' because the extension is not supported.")
 
 if __name__ == "__main__":
-    sourceDir = r"path/to/source"       # Replace with the path to source directory
-    destDir = r"path/to/dest"           # Replace with the path to direction directory
+    sourceDir = input("Enter the source directory path: ")
+    destDir = input("Enter the destination directory path: ")
 
-    organizeFiles(sourceDir, destDir)
+    if not os.path.exists(sourceDir) and os.path.exists(destDir):
+        print("Directory not found. Exiting...")
+    else:
+        organizeFiles(sourceDir, destDir)
