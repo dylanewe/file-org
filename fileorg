@@ -1,0 +1,45 @@
+import os
+import shutil
+
+def organizeFiles(source, dest):
+    # Map file extensions to their respective subdirectories
+    extMap = {
+        'txt': 'Text',
+        'pdf': 'PDFs',
+        'jpg': 'Pictures',
+        'png': 'Pictures',
+        'doc': 'Documents',
+        'docx': 'Documents',
+        'xlsx': 'Spreadsheets',
+        'ppt': 'Presentations',
+        'pptx': 'Presentations',
+        'mp3': 'Music',
+        'mp4': 'Videos',
+        'zip': 'Archives'
+    }
+
+    # Create subdirectories in the destination directory for every file type
+    for folder in extMap.values():
+        folderPath = os.path.join(dest, folder)
+        if not os.path.exists(folderPath):
+            os.makedirs(folderPath)
+
+    for filename in os.listdir(source):
+        filePath = os.path.join(source, filename)
+        if os.path.isfile(filePath):
+            _, ext = os.path.splitext(filename)
+            ext = ext[1:].lower()   # Remove dot from extension & convert to lowercase
+
+            if ext in extMap:
+                destFolder = extMap[ext]
+                destPath = os.path.join(dest, destFolder, filename)
+                shutil.move(filePath, destPath)
+                print(f"Moved '{filename}' to '{destFolder}' folder.")
+            else:
+                print(f"Skipped '{filename}' because the extension is not supported.")
+
+if __name__ == "__main__":
+    sourceDir = r"path/to/source"       # Replace with the path to source directory
+    destDir = r"path/to/dest"           # Replace with the path to direction directory
+
+    organizeFiles(sourceDir, destDir)
